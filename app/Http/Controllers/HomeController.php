@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ProductsExport;
+use App\Site;
+use App\SiteExport;
+use Automattic\WooCommerce\Client;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Pixelpeter\Woocommerce\WoocommerceClient;
 use Woocommerce;
-use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller
 {
@@ -29,37 +33,63 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = collect(Woocommerce::get('products/categories', ['per_page' => 100]))->sortBy('name');
-        return view('index', ['categories' => $categories]);
+        $sites = auth()->user()->sites->load('exports');
+        $exports = auth()->user()->exports;
+        $site = $sites->first();
+        $woocommerce = $this->woocommerceClient($site);
+        $categories = collect($woocommerce->get('products/categories', ['per_page' => 100]))->sortBy('name');
+        return view('index', compact(['categories', 'sites', 'exports', 'site']));
     }
 
-    public function arrayCreate(Request $request)
+    public function export(Request $request)
     {
-        $category = 'Sirupi';
+        $site = Site::findOrFail($request->site);
+
+        $woocommerce = $this->woocommerceClient($site);
+
         $page = 1;
-        $products = [];
         $all_products = [];
         $finished_array = [];
         $counter = 1;
-        do{
-        try {
+        do {
+
         $request->category == 0
-            ? $products = Woocommerce::get('products', ['per_page' => 100, 'page' => $page])
-            : $products = Woocommerce::get('products', ['per_page' => 100, 'page' => $page, 'category' => $request->category]);
 
+            ? $products = $woocommerce->get('products', ['per_page' => 100,
+                                                        'page' => $page,
+                                                        'status' => $request->status,
+                                                        'stock_status' => $request->stock_status])
 
-        }catch(HttpClientException $e){
-            die("Can't get products: $e");
-        }
+            : $products = $woocommerce->get('products', ['per_page' => 100,
+                                                        'page' => $page,
+                                                        'stock_status' => $request->stock_status,
+                                                        'status' => $request->status,
+                                                        'category' => $request->category]);
 
         $all_products = array_merge($all_products,$products);
 
         $page++;
+
         } while (count($products) > 0);
 
-        $header = array('ID','ID2','Item Title','Final URL','Image URL from subtitle','Item Description','Item Category','Price','Sale Price','Item address','Sale Price','Tracking template','Custom parameter','Final mobile URL'); //header
-        $finished_array[0] = $header;
-
+        // HEADER
+        $finished_array[0] = [
+            'ID',
+            'ID2',
+            'Item Title',
+            'Final URL',
+            'Image URL from subtitle',
+            'Item Description',
+            'Item Category',
+            'Price',
+            'Sale Price',
+            'Item address',
+            'Sale Price',
+            'Tracking template',
+            'Custom parameter',
+            'Final mobile URL'
+        ];
+        
         foreach($all_products as $product)
         {
             $finished_array[$counter][] = $product["id"];
@@ -69,23 +99,55 @@ class HomeController extends Controller
             $finished_array[$counter][] = collect($product["images"])->first()["src"];
             $finished_array[$counter][] = strip_tags($product["description"]);
             $finished_array[$counter][] = collect($product["categories"])->first()["name"];
-            $finished_array[$counter][] = number_format($product["price"], 2) . ' HRK';
+            $finished_array[$counter][] = number_format((float) $product["price"], 2) . ' HRK';
             $finished_array[$counter][] = number_format((float) $product["sale_price"], 2) . ' HRK';
             $counter = $counter + 1;
         }
 
-        $format = $request->format;
+    //    return $this->download($finished_array, $request->type);
 
-        return $this->export($finished_array, $format);
+         $this->store($site, $finished_array, $request->type);
+
+        return redirect()->back();
     }
 
-    public function export($finished_array, $format)
+    public function download($filename)
+    {
+        return response()->download(storage_path("app/public/{$filename}"));
+    }
+
+
+ public function store($site, $finished_array, $type)
     {
 
         $export = new ProductsExport([$finished_array]);
 
-        return Excel::download($export,
-            'WooCommerce Export ' . Carbon::now()->format('d-m-Y') . '.' . strtolower($format),
-                constant('\Maatwebsite\Excel\Excel::' . strtoupper($format)));
+        $fileName = $site->name . ' - ' . Carbon::now()->format('dmyHis') . '.' . strtolower($type);
+
+
+        Excel::store($export, $fileName,
+            'public',  constant('\Maatwebsite\Excel\Excel::' . strtoupper($type)));
+
+        $site->exports()->save(
+            SiteExport::create(['name' => $fileName, 'type' => $type, 'user_id' => auth()->user()->id])
+        );
+
+    }
+
+    public function woocommerceClient($site)
+    {
+        $client = new Client(
+            $site->store_url,
+            decrypt($site->consumer_key),
+            decrypt($site->consumer_secret),
+            [
+                'version' => 'wc/'.config('woocommerce.api_version'),
+                'verify_ssl' => config('woocommerce.verify_ssl'),
+                'wp_api' => config('woocommerce.wp_api'),
+                'query_string_auth' => config('woocommerce.query_string_auth'),
+                'timeout' => config('woocommerce.timeout')
+            ]);
+
+        return new WoocommerceClient($client);
     }
 }

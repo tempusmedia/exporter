@@ -17,8 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 
-Route::get('/download', 'HomeController@arrayCreate')->name('download');
+Route::get('export', 'HomeController@export')->name('export');
+Route::get('download/{filename}', 'HomeController@download')->name('download');
 
 Route::get('index' , 'HomeController@index')->name('index');
