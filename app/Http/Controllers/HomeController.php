@@ -57,7 +57,7 @@ class HomeController extends Controller
         $page++;
         } while (count($products) > 0);
 
-        $header = array('ID','ID2','Item Title','Final URL','Image URL from subtitle','Item Description','Item Category','Price','Sale Price'); //header
+        $header = array('ID','ID2','Item Title','Final URL','Image URL from subtitle','Item Description','Item Category','Price','Sale Price','Item address','Sale Price','Tracking template','Custom parameter','Final mobile URL'); //header
         $finished_array[0] = $header;
 
         foreach($all_products as $product)
@@ -83,9 +83,6 @@ class HomeController extends Controller
     {
 
         $export = new ProductsExport([$finished_array]);
-
-
-
 
         return Excel::download($export,
             'WooCommerce Export ' . Carbon::now()->format('d-m-Y') . '.' . strtolower($format),
