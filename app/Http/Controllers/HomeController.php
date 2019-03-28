@@ -69,8 +69,8 @@ class HomeController extends Controller
             $finished_array[$counter][] = collect($product["images"])->first()["src"];
             $finished_array[$counter][] = strip_tags($product["description"]);
             $finished_array[$counter][] = collect($product["categories"])->first()["name"];
-            $finished_array[$counter][] = $product["price"];
-            $finished_array[$counter][] = $product["sale_price"];
+            $finished_array[$counter][] = number_format($product["price"], 2) . ' HRK';
+            $finished_array[$counter][] = number_format($product["sale_price"], 2) . ' HRK';
             $counter = $counter + 1;
         }
 
