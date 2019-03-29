@@ -2,12 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60f440a8-d85d-48b8-8d0c-4f270a9ea585" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/adwords.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/adwords.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,29 +41,35 @@
           <entry key="csv" value="2" />
           <entry key="env" value="13" />
           <entry key="gitignore" value="1" />
+          <entry key="js" value="2" />
           <entry key="log" value="2" />
-          <entry key="php" value="278" />
+          <entry key="php" value="308" />
+          <entry key="scss" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key=".env file" value="13" />
-          <entry key="Blade" value="42" />
-          <entry key="PHP" value="236" />
+          <entry key="Blade" value="55" />
+          <entry key="JavaScript" value="2" />
+          <entry key="PHP" value="253" />
           <entry key="PLAIN_TEXT" value="5" />
+          <entry key="SCSS" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="env" value="51" />
-          <entry key="php" value="3150" />
+          <entry key="php" value="3510" />
+          <entry key="scss" value="26" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key=".env file" value="51" />
-          <entry key="Blade" value="1191" />
-          <entry key="PHP" value="1959" />
+          <entry key="Blade" value="1286" />
+          <entry key="PHP" value="2224" />
+          <entry key="SCSS" value="26" />
         </counts>
       </usages-collector>
     </session>
@@ -63,13 +77,10 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="114" column="38" selection-start-line="114" selection-start-column="38" selection-end-line="114" selection-end-column="38" />
-              <folding>
-                <element signature="e#4646#6020#0#HTML" />
-              </folding>
+            <state relative-caret-position="744">
+              <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
             </state>
           </provider>
         </entry>
@@ -82,6 +93,8 @@
       <find>format</find>
       <find>number_type</find>
       <find>store</find>
+      <find>z</find>
+      <find>float-right</find>
     </findStrings>
     <replaceStrings>
       <replace>type</replace>
@@ -98,13 +111,15 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/database/migrations/2019_03_28_213740_create_sites_table.php" />
         <option value="$PROJECT_DIR$/app/Site.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_03_28_222031_create_site_exports_table.php" />
         <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
         <option value="$PROJECT_DIR$/app/SiteExport.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/resources/sass/app.scss" />
         <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
       </list>
     </option>
   </component>
@@ -115,6 +130,9 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
@@ -211,6 +229,8 @@
       <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
       <path value="$PROJECT_DIR$/vendor/phenx/php-svg-lib" />
       <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/laracasts/flash" />
+      <path value="$PROJECT_DIR$/vendor/uxweb/sweet-alert" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
@@ -260,7 +280,57 @@
             <path>
               <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
               <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="sass" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="layouts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="adwords" type="b2602c69:ProjectViewProjectNode" />
+              <item name="adwords" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -269,7 +339,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="web&#9;FILE&#9;file:///Users/kristijan/code/adwords/routes/web.php&#10;env&#9;FILE&#9;file:///Users/kristijan/code/adwords/.env&#10;filesystems&#9;FILE&#9;file:///Users/kristijan/code/adwords/config/filesystems.php&#10;See&#9;null&#9;null&#10;.env&#9;FILE&#9;file:///Users/kristijan/code/adwords/.env&#10;Woocommerce&#9;null&#9;null&#10;web.php&#9;FILE&#9;file:///Users/kristijan/code/adwords/routes/web.php&#10;wev.php&#9;FILE&#9;file:///Users/kristijan/code/adwords/vendor/maatwebsite/excel/src/Concerns/WithEvents.php" />
+    <property name="SearchEverywhereHistoryKey" value="Hom&#9;FILE&#9;file:///Users/kristijan/code/adwords/app/Http/Controllers/HomeController.php&#10;web&#9;FILE&#9;file:///Users/kristijan/code/adwords/routes/web.php&#10;env&#9;FILE&#9;file:///Users/kristijan/code/adwords/.env&#10;filesystems&#9;FILE&#9;file:///Users/kristijan/code/adwords/config/filesystems.php&#10;See&#9;null&#9;null&#10;.env&#9;FILE&#9;file:///Users/kristijan/code/adwords/.env&#10;Woocommerce&#9;null&#9;null&#10;web.php&#9;FILE&#9;file:///Users/kristijan/code/adwords/routes/web.php&#10;wev.php&#9;FILE&#9;file:///Users/kristijan/code/adwords/vendor/maatwebsite/excel/src/Concerns/WithEvents.php" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -304,12 +374,12 @@
       <workItem from="1553792535935" duration="1981000" />
       <workItem from="1553796521352" duration="7544000" />
       <workItem from="1553809327591" duration="88000" />
-      <workItem from="1553809436486" duration="6990000" />
+      <workItem from="1553809436486" duration="9568000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16687000" />
+    <option name="totallyTimeSpent" value="19265000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
@@ -474,13 +544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2019_03_28_222031_create_site_exports_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
@@ -516,23 +579,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="40" column="77" selection-start-line="40" selection-start-column="77" selection-end-line="40" selection-end-column="77" />
-          <folding>
-            <element signature="e#40#71#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="364">
+          <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/sass/_variables.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/jquery/src/traversing/findFilter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="79" column="4" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="114" column="38" selection-start-line="114" selection-start-column="38" selection-end-line="114" selection-end-column="38" />
-          <folding>
-            <element signature="e#4646#6020#0#HTML" />
-          </folding>
+        <state relative-caret-position="312">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/uxweb/sweet-alert/src/SweetAlert/SweetAlert.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="744">
+          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
         </state>
       </provider>
     </entry>

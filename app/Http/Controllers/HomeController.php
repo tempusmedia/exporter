@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use UxWeb\SweetAlert\SweetAlert;
 use App\Exports\ProductsExport;
 use App\Site;
 use App\SiteExport;
@@ -52,7 +53,6 @@ class HomeController extends Controller
         $finished_array = [];
         $counter = 1;
         do {
-
         $request->category == 0
 
             ? $products = $woocommerce->get('products', ['per_page' => 100,
@@ -104,9 +104,9 @@ class HomeController extends Controller
             $counter = $counter + 1;
         }
 
-    //    return $this->download($finished_array, $request->type);
+        $reponse =  $this->store($site, $finished_array, $request->type);
 
-         $this->store($site, $finished_array, $request->type);
+        alert()->success('Export <b>' . $reponse . '</b> successfully created!');
 
         return redirect()->back();
     }
@@ -132,6 +132,7 @@ class HomeController extends Controller
             SiteExport::create(['name' => $fileName, 'type' => $type, 'user_id' => auth()->user()->id])
         );
 
+        return $fileName;
     }
 
     public function woocommerceClient($site)
@@ -149,5 +150,16 @@ class HomeController extends Controller
             ]);
 
         return new WoocommerceClient($client);
+    }
+
+
+    public function delete(SiteExport $siteExport)
+    {
+        Storage::disk('public')->delete($siteExport->name);
+        $siteExport->delete();
+
+        flash('Export <b>' . $siteExport->name . '</b> successfully deleted!')->success();
+
+        return redirect()->back();
     }
 }

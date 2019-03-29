@@ -12,12 +12,7 @@
                         </h1></div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
+                        @include('flash::message')
 
                         <form action="{{ route('export') }}" method="get">
 
@@ -107,7 +102,11 @@
                                             <td>{{ $file->created_at->format('H:i') }}</td>
                                             <td>{{ $file->name }}</td>
                                             <td style="text-align: center"><span class="badge badge-secondary ">{{ $file->type }}</span></td>
-                                            <td><a href="{{ route('download', $file->name) }}" class="btn btn-sm btn-success float-right">Download</a></td>
+                                            <td>
+                                                <a href="{{ route('download', $file->name) }}" class="btn btn-sm btn-success float-right">Download <i class="fa fa-download"></i></a>
+                                                <a href="{{ route('delete', $file) }}" class="btn btn-sm btn-danger float-right">Delete <i class="fa fa-trash"></i></a>
+
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
