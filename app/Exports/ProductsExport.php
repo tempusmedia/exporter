@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 use Maatwebsite\Excel\Concerns\FromArray;
@@ -9,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class ProductsExport implements FromArray, WithHeadingRow
 {
+    use Exportable;
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -18,6 +20,7 @@ class ProductsExport implements FromArray, WithHeadingRow
     {
         $this->products = $products;
     }
+
 
     public function array(): array
     {

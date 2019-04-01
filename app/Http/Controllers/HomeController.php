@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use UxWeb\SweetAlert\SweetAlert;
 use App\Exports\ProductsExport;
+use App\Helpers\Woo;
 use App\Site;
 use App\SiteExport;
-use Automattic\WooCommerce\Client;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Pixelpeter\Woocommerce\WoocommerceClient;
-use Woocommerce;
-use Maatwebsite\Excel\Facades\Excel;
 
 
 class HomeController extends Controller
 {
+    use Woo;
     /**
      * Create a new controller instance.
      *
@@ -32,16 +29,28 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sites = auth()->user()->sites->load('exports');
-        $exports = auth()->user()->exports;
-        $site = $sites->first();
-        $woocommerce = $this->woocommerceClient($site);
-        $categories = collect($woocommerce->get('products/categories', ['per_page' => 100]))->sortBy('name');
+        $sites = auth()->user()->sites;
+        $exports = auth()->user()->exports()->orderBy('id', 'desc')->paginate(5);
+        $site = $request->has('site' ) ? $sites->find($request->site) : $sites->first();
+
+        if (auth()->user()->sites->first()) {
+            $woocommerce = $this->woocommerceClient($site);
+            $categories = collect($woocommerce->get('products/categories', ['per_page' => 100]))->sortBy('name');
+        }
+
         return view('index', compact(['categories', 'sites', 'exports', 'site']));
     }
 
+
+    /**
+     * Exports from WooCommerce REST API endpoin to document
+     * Store exported document to filesistem and database
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function export(Request $request)
     {
         $site = Site::findOrFail($request->site);
@@ -52,48 +61,35 @@ class HomeController extends Controller
         $all_products = [];
         $finished_array = [];
         $counter = 1;
+
         do {
-        $request->category == 0
+            $request->category == 0
 
-            ? $products = $woocommerce->get('products', ['per_page' => 100,
-                                                        'page' => $page,
-                                                        'status' => $request->status,
-                                                        'stock_status' => $request->stock_status])
+                ? $products = $woocommerce->get('products', [
+                                                                 'per_page'     => 100,
+                                                                 'page'         => $page,
+                                                                 'status'       => $request->status,
+                                                                 'stock_status' => $request->stock_status ])
 
-            : $products = $woocommerce->get('products', ['per_page' => 100,
-                                                        'page' => $page,
-                                                        'stock_status' => $request->stock_status,
-                                                        'status' => $request->status,
-                                                        'category' => $request->category]);
+                : $products = $woocommerce->get('products', [
+                                                                 'per_page'     => 100,
+                                                                 'page'         => $page,
+                                                                 'stock_status' => $request->stock_status,
+                                                                 'status'       => $request->status,
+                                                                 'category'     => $request->category ]);
 
-        $all_products = array_merge($all_products,$products);
+            $all_products = array_merge($all_products, $products);
 
-        $page++;
+            $page++;
 
         } while (count($products) > 0);
 
-        // HEADER
-        $finished_array[0] = [
-            'ID',
-            'ID2',
-            'Item Title',
-            'Final URL',
-            'Image URL from subtitle',
-            'Item Description',
-            'Item Category',
-            'Price',
-            'Sale Price',
-            'Item address',
-            'Sale Price',
-            'Tracking template',
-            'Custom parameter',
-            'Final mobile URL'
-        ];
-        
-        foreach($all_products as $product)
-        {
+        // SET HEADER //
+        $finished_array[0] = $this->getHeader();
+
+        foreach ($all_products as $product) {
             $finished_array[$counter][] = $product["id"];
-            $finished_array[$counter][] = null;
+            $finished_array[$counter][] = $product["sku"];
             $finished_array[$counter][] = $product["name"];
             $finished_array[$counter][] = $product["permalink"];
             $finished_array[$counter][] = collect($product["images"])->first()["src"];
@@ -104,62 +100,77 @@ class HomeController extends Controller
             $counter = $counter + 1;
         }
 
-        $reponse =  $this->store($site, $finished_array, $request->type);
+        $reponse = $this->store($site, $finished_array, $request->type);
 
         alert()->success('Export <b>' . $reponse . '</b> successfully created!');
 
-        return redirect()->back();
+        return redirect()->back()->withInput();
     }
 
+
+    /**
+     * @param $site
+     * @param $finished_array
+     * @param $type
+     * @return string
+     */
+    public function store($site, $finished_array, $type)
+    {
+        $fileName = $site->name . ' - ' . Carbon::now()->format('dmyHis') . '.' . strtolower($type);
+
+        (new ProductsExport([$finished_array]))->store($fileName, 'public', constant('\Maatwebsite\Excel\Excel::' . strtoupper($type)));
+
+        $site->exports()->save(SiteExport::create(['name' => $fileName, 'type' => $type, 'user_id' => auth()->user()->id]));
+
+        return $fileName;
+    }
+
+
+    /**
+     * @param $filename
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function download($filename)
     {
         return response()->download(storage_path("app/public/{$filename}"));
     }
 
-
- public function store($site, $finished_array, $type)
-    {
-
-        $export = new ProductsExport([$finished_array]);
-
-        $fileName = $site->name . ' - ' . Carbon::now()->format('dmyHis') . '.' . strtolower($type);
-
-
-        Excel::store($export, $fileName,
-            'public',  constant('\Maatwebsite\Excel\Excel::' . strtoupper($type)));
-
-        $site->exports()->save(
-            SiteExport::create(['name' => $fileName, 'type' => $type, 'user_id' => auth()->user()->id])
-        );
-
-        return $fileName;
-    }
-
-    public function woocommerceClient($site)
-    {
-        $client = new Client(
-            $site->store_url,
-            decrypt($site->consumer_key),
-            decrypt($site->consumer_secret),
-            [
-                'version' => 'wc/'.config('woocommerce.api_version'),
-                'verify_ssl' => config('woocommerce.verify_ssl'),
-                'wp_api' => config('woocommerce.wp_api'),
-                'query_string_auth' => config('woocommerce.query_string_auth'),
-                'timeout' => config('woocommerce.timeout')
-            ]);
-
-        return new WoocommerceClient($client);
-    }
-
-
+    /**
+     * @param SiteExport $siteExport
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function delete(SiteExport $siteExport)
     {
         Storage::disk('public')->delete($siteExport->name);
         $siteExport->delete();
-
         flash('Export <b>' . $siteExport->name . '</b> successfully deleted!')->success();
-
         return redirect()->back();
     }
+
+    /**
+     * @return array
+     */
+    public function getHeader()
+    {
+       return [
+           'ID',
+           'ID2',
+           'Item Title',
+           'Final URL',
+           'Image URL from subtitle',
+           'Item Description',
+           'Item Category',
+           'Price',
+           'Sale Price',
+           'Item address',
+           'Tracking template',
+           'Custom parameter',
+           'Final mobile URL'
+       ];
+    }
+
+
+
+
 }

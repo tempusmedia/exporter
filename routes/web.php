@@ -22,5 +22,5 @@ Route::get('home', 'HomeController@index')->name('home');
 Route::get('export', 'HomeController@export')->name('export');
 Route::get('download/{filename}', 'HomeController@download')->name('download');
 Route::get('delete/{siteExport}', 'HomeController@delete')->name('delete');
-
+Route::resource('site', 'SiteController');
 Route::get('index' , 'HomeController@index')->name('index');
