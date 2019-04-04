@@ -7,8 +7,11 @@ use App\Helpers\Woo;
 use App\Site;
 use App\SiteExport;
 use Carbon\Carbon;
+use DonatelloZa\RakePlus\RakePlus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class HomeController extends Controller
 {
@@ -30,6 +33,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+
+
         $sites = auth()->user()->sites;
         $site = $request->has('site' ) ? $sites->find($request->site) : $sites->first();
         $exports = $site->exports()->orderBy('id', 'desc')->paginate(5);
@@ -61,6 +66,7 @@ class HomeController extends Controller
         $finished_array = [];
         $counter = 1;
 
+
         do {
             $request->category == 0
 
@@ -88,18 +94,28 @@ class HomeController extends Controller
         $finished_array[0] = $this->getHeader();
 
         foreach ($all_products as $product) {
-            $finished_array[$counter][] = $product["sku"];
-            $finished_array[$counter][] = $product["id"];
-            $finished_array[$counter][] = $product["name"];
-            $finished_array[$counter][] = $product["permalink"];
-            $finished_array[$counter][] = collect($product["images"])->first()["src"];
-            $finished_array[$counter][] = $product["description"] != '' ? strip_tags($product["description"]) : strip_tags($product["short_description"]);//short_description
-            $finished_array[$counter][] = collect($product["categories"])->first()["name"];
-            $finished_array[$counter][] = number_format((float) $product["price"], 2) . ' HRK';
-            $finished_array[$counter][] = number_format((float) $product["sale_price"], 2) . ' HRK';
+            $finished_array[$counter][] = $product["sku"]; // ID2
+            $finished_array[$counter][] = $product["id"]; // ID2
+            $finished_array[$counter][] = $product["name"]; // Item title
+            $finished_array[$counter][] = $product["permalink"]; // Final URL
+            $finished_array[$counter][] = collect($product["images"])->first()["src"]; // Image URL
+            $finished_array[$counter][] = Str::limit(strip_tags($product["short_description"]), 25);  // Item subtitle
+           // $finished_array[$counter][] = $product["description"] != ''
+           //                                     ?  Str::limit(strip_tags($product["description"]), 25)
+           //                                     :  Str::limit(strip_tags($product["short_description"]), 25);// Item description
+            $finished_array[$counter][] = collect($product["categories"])->first()["name"]; // Item category
+            $finished_array[$counter][] = $product["price"] . ' HRK'; // Price
+            $finished_array[$counter][] = $product["sale_price"] . ' HRK'; // 'Sale price',
+         //   $finished_array[$counter][] = $this->getContextualKeywords($product["name"]) . ', ' .
+          //      $this->getContextualKeywords(collect($product["categories"])->first()["name"]); // 'Contextual keywords',
+
+
+            // //$finished_array[$counter][] = $this->getContextualKeywords(collect($product["categories"])->first()["name"]); // 'Contextual keywords',
+
             $counter = $counter + 1;
         }
 
+      //s return $finished_array;
         $reponse = $this->store($site, $finished_array, $request->type);
 
         alert()->success('Export <b>' . $reponse . '</b> successfully created!');
@@ -156,6 +172,22 @@ class HomeController extends Controller
        return [
            'ID',
            'ID2',
+           'Item title',
+           'Final URL',
+           'Image URL',
+           'Item subtitle',
+           'Item description',
+           'Item category',
+           'Price',
+           'Sale price',
+           'Contextual keywords',
+           'Item address',
+           'Tracking template',
+           'Custom parameter',
+           'Final mobile URL'
+
+        /**'ID',
+           'ID2',
            'Item Title',
            'Final URL',
            'Image URL from subtitle',
@@ -167,10 +199,20 @@ class HomeController extends Controller
            'Tracking template',
            'Custom parameter',
            'Final mobile URL'
+           **/
+
        ];
     }
 
 
-
+    /**
+     * @param $text
+     * @return array
+     */
+    public function getContextualKeywords($text) : string {
+        $text = preg_split("/[^\w]*([\s]+[^\w]*|$)/", $text, -1, PREG_SPLIT_NO_EMPTY);
+        $text = array_unique($text);
+        return implode($text, ', ');
+    }
 
 }
