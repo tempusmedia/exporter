@@ -99,13 +99,15 @@ class HomeController extends Controller
             $finished_array[$counter][] = $product["name"]; // Item title
             $finished_array[$counter][] = $product["permalink"]; // Final URL
             $finished_array[$counter][] = collect($product["images"])->first()["src"]; // Image URL
-            $finished_array[$counter][] = Str::limit(strip_tags($product["short_description"]), 25);  // Item subtitle
+           // $finished_array[$counter][] = Str::limit(strip_tags($product["name"]), 25);  // Item subtitle
            // $finished_array[$counter][] = $product["description"] != ''
            //                                     ?  Str::limit(strip_tags($product["description"]), 25)
            //                                     :  Str::limit(strip_tags($product["short_description"]), 25);// Item description
+            $finished_array[$counter][] = '';
+            $finished_array[$counter][] = '';
             $finished_array[$counter][] = collect($product["categories"])->first()["name"]; // Item category
             $finished_array[$counter][] = $product["price"] . ' HRK'; // Price
-            $finished_array[$counter][] = $product["sale_price"] . ' HRK'; // 'Sale price',
+            $finished_array[$counter][] = $product["sale_price"] ? $product["sale_price"] . ' HRK' : ''; // 'Sale price',
          //   $finished_array[$counter][] = $this->getContextualKeywords($product["name"]) . ', ' .
           //      $this->getContextualKeywords(collect($product["categories"])->first()["name"]); // 'Contextual keywords',
 
