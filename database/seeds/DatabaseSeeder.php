@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-
        $files = \Illuminate\Support\Facades\Storage::disk('public')->allFiles();
         \Illuminate\Support\Facades\Storage::disk('public')->delete($files);
 

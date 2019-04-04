@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class HomeController extends Controller
 {
     use Woo;
@@ -32,8 +31,8 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $sites = auth()->user()->sites;
-        $exports = auth()->user()->exports()->orderBy('id', 'desc')->paginate(5);
         $site = $request->has('site' ) ? $sites->find($request->site) : $sites->first();
+        $exports = $site->exports()->orderBy('id', 'desc')->paginate(5);
 
         if (auth()->user()->sites->first()) {
             $woocommerce = $this->woocommerceClient($site);
@@ -88,8 +87,8 @@ class HomeController extends Controller
         $finished_array[0] = $this->getHeader();
 
         foreach ($all_products as $product) {
-            $finished_array[$counter][] = $product["id"];
             $finished_array[$counter][] = $product["sku"];
+            $finished_array[$counter][] = $product["id"];
             $finished_array[$counter][] = $product["name"];
             $finished_array[$counter][] = $product["permalink"];
             $finished_array[$counter][] = collect($product["images"])->first()["src"];

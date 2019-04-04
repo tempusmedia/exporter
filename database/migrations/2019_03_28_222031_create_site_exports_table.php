@@ -21,7 +21,7 @@ class CreateSiteExportsTable extends Migration
             $table->string('type')->nullable();
             $table->timestamps();
 
-            $table->foreign('site_id')->references('id')->on('sites');
+            $table->foreign('site_id')->references('id')->on('sites')   ;
             $table->foreign('user_id')->references('id')->on('users');
 
         });
