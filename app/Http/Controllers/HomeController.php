@@ -83,6 +83,7 @@ class HomeController extends Controller
 
         } while (count($products) > 0);
 
+
         // SET HEADER //
         $finished_array[0] = $this->getHeader();
 
@@ -92,7 +93,7 @@ class HomeController extends Controller
             $finished_array[$counter][] = $product["name"];
             $finished_array[$counter][] = $product["permalink"];
             $finished_array[$counter][] = collect($product["images"])->first()["src"];
-            $finished_array[$counter][] = strip_tags($product["description"]);
+            $finished_array[$counter][] = $product["description"] != '' ? strip_tags($product["description"]) : strip_tags($product["short_description"]);//short_description
             $finished_array[$counter][] = collect($product["categories"])->first()["name"];
             $finished_array[$counter][] = number_format((float) $product["price"], 2) . ' HRK';
             $finished_array[$counter][] = number_format((float) $product["sale_price"], 2) . ' HRK';
